@@ -17,7 +17,7 @@ class PasswordCard:
         for i in range(keyword_length):
             self.card.append([''.join(choices(printable, k=segment_length + i - i)) for i in range(10)])
 
-    def get_password(self, keyword):
+    def get_password(self, keyword: str):
         password, o = "", 1
         for char in keyword.upper():
             # get position of keyword char
@@ -42,15 +42,17 @@ class PasswordCard:
             tablefmt="github"
         )
 
+        # load font
         font = ImageFont.truetype(font.lower(), font_size)
 
-        # get the size of the image
+        # determine the size that the image should have
         size, lines = {"x": 0, "y": 0}, []
         for line in text.split("\n"):
             lines.append(font.getsize(line)[0]+20)
         size["x"] = max(lines)
         size["y"] = len(text.split("\n"))*font.getsize(text)[1]
 
+        # create image
         img = Image.new("RGB", tuple(size.values()), color="white")
 
         # write text
