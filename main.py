@@ -1,7 +1,7 @@
 from string import ascii_lowercase as al, ascii_uppercase as au, digits as d
 from PIL import Image, ImageDraw, ImageFont
-from random import choices
 from tabulate import tabulate
+from random import choices
 
 
 class PasswordCard:
@@ -13,11 +13,17 @@ class PasswordCard:
       save: creates an image containing the table
     """
     def __init__(self, keyword_length: int, segment_length: int = 3):
+        """
+        :param keyword_length: has to be the length of the keyword
+        """
         self.card, printable = [["ABC", "DEF", "GHI", "JKL", "MNO", "PQR", "STU", "CWX", "ZY", "."]], al + au + d + "{%}?!.,_;\\'[]#"
         for i in range(keyword_length):
-            self.card.append([''.join(choices(printable, k=segment_length + i - i)) for i in range(10)])
+            self.card.append([''.join(choices(printable, k=segment_length + i - i)) for i in range(10)])  # + i - i because "unused variable"
 
     def get_password(self, keyword: str):
+        """
+        Gets the password for [keyword]
+        """
         password, o = "", 1
         for char in keyword.upper():
             # get position of keyword char
@@ -29,18 +35,29 @@ class PasswordCard:
             if pos is None:
                 raise NameError("Invalid Keyword!")
 
-            password += self.card[o][pos]
-            o += 1
+            try:
+                password += self.card[o][pos]
+                o += 1
+            except IndexError:
+                raise NameError("Keyword is to long!") from None
 
         return password
 
-    def save(self, filename: str, font: str = "courbi", font_size: int = 15):
-        text = tabulate(
-            self.card,
-            headers="firstrow",
-            showindex="always",
-            tablefmt="github"
-        )
+    def save(self, filename: str, font: str = "courbi", font_size: int = 15, txt: bool = False):
+        """
+        Saves the card as a png or txt
+
+        :param filename: filename
+        :param font: font
+        :param font_size: font size
+        :param txt: set to true if you dont want to convert the card to a png
+        """
+        text = self.__str__()
+
+        if txt:
+            with open(filename, "w") as file:
+                file.write(text)
+            return
 
         # load font
         font = ImageFont.truetype(font.lower(), font_size)
@@ -78,12 +95,26 @@ class PasswordCard:
         """
 
     def __str__(self) -> str:
-        return tabulate(
+        tabulated_card = tabulate(
             self.card,
             headers="firstrow",
             showindex="always",
             tablefmt="github"
         )
+
+        # because tabulates showindex starts at 0 i have to do this
+        # so it can start from 1. but there is a catch: if your card has 100
+        # as the keyword_length or 1000 or 10000 and so on, the last
+        # number looks a bit weird (normally '| 1 |...', bug: '|1 |')
+        card, i = '\n'.join(tabulated_card.split("\n")[:2]) + '\n', 1
+        for line in tabulated_card.split("\n")[2:]:
+            if len(str(i)) > len(str(i-1)):
+                card += line.replace(f" {i-1}", str(i)) + '\n'
+            else:
+                card += line.replace(str(i-1), str(i)) + '\n'
+            i += 1
+
+        return card
 
 
 if __name__ == '__main__':
@@ -92,3 +123,4 @@ if __name__ == '__main__':
     print(card1)
     print(card1.get_password("EinSehrLangesPassword.MalSehenWieLangeDasBraucht.LulSoGutWieWenigerAlsNullSekunden"))
     card1.save("test_card.png")
+    card1.save("test_card.txt", txt=True)
