@@ -1,8 +1,8 @@
 # Password Card Generator
 ```python 
-from PasswordCardGenerator import
+from PasswordCardGenerator import PasswordCard
 
-keyword = "YourKeyWord"
+keyword = "YourKeyword"
 
 # Create a password card
 card1 = PasswordCard(keyword_length=len(keyword))

@@ -8,10 +8,10 @@ with open("requirements.txt", "r") as requirements:
 
 setup(
     name="PasswordCardGenerator",
-    version="1.0.1",
+    version="1.0.3",
     # Major version 1
     # Minor version 0
-    # Maintenance version 0
+    # Maintenance version 3
 
     author="DerSchinken",
     description="A Password Card Generator",
@@ -19,8 +19,11 @@ setup(
     long_description_content_type="text/markdown",
     packages=find_packages(),
     install_requires=reqs,
-    python_requires=">=3.7",
-    url="https://GitHub.com/DerSchinken/PasswordCardGenerator",
+    python_requires=">=3.6",
+    project_urls={
+        "Homepage": "http://index12.bplaced.net/",
+        "Github": "https://GitHub.com/DerSchinken/PasswordCardGenerator",
+    },
     keyword=[
         "PasswordCardGenerator",
         "Password Card Generator",
@@ -31,6 +34,7 @@ setup(
         'Intended Audience :: System Administrators',
         'Intended Audience :: Information Technology',
 
+        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
