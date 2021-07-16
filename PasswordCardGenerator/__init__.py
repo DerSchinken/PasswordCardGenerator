@@ -61,12 +61,8 @@ class PasswordCard:
                 file.write(text)
             return
 
-        try:
-            # load font
-            font = ImageFont.truetype(font, font_size)
-        except OSError:
-            print(font)
-            print(str(__file__))
+        # load font
+        font = ImageFont.truetype(font, font_size)
 
         # determine the size that the image should have
         size, lines = {"x": 0, "y": 0}, []
