@@ -1,12 +1,14 @@
 from string import ascii_lowercase as al, ascii_uppercase as au, digits as d
 from PIL import Image, ImageDraw, ImageFont
+from typing import Tuple, List
 from tabulate import tabulate
 from random import choices
+
 
 # Important: Always put out new version on PyPI before pushing to github
 
 
-class PasswordCard:
+class PasswordCard(object):
     """
     Generates a Password Card
 
@@ -14,15 +16,19 @@ class PasswordCard:
       get_password: gets the password for [Keyword]
       save: creates an image containing the table
     """
+    __version__, version = ["1.2.0"]*2
+
     def __init__(self, keyword_length: int, segment_length: int = 3):
         """
         :param keyword_length: has to be the length of the keyword
         """
-        self.card, printable = [["ABC", "DEF", "GHI", "JKL", "MNO", "PQR", "STU", "VWX", "ZY", "."]], al + au + d + "{%}?!.,_;\\'[]#"
+        self.card, printable = [["ABC", "DEF", "GHI", "JKL", "MNO", "PQR", "STU", "VWX", "ZY",
+                                 "."]], al + au + d + "{%}?!.,_;\\'[]#"
         for i in range(keyword_length):
-            self.card.append([''.join(choices(printable, k=segment_length + i - i)) for i in range(10)])  # + i - i because "unused variable"
+            self.card.append([''.join(choices(printable, k=segment_length + i - i)) for i in
+                              range(10)])  # + i - i because "unused variable"
 
-    def get_password(self, keyword: str):
+    def get_password(self, keyword: str) -> str:
         """
         Gets the password for [keyword]
         """
@@ -45,7 +51,8 @@ class PasswordCard:
 
         return password
 
-    def save(self, filename: str, font: str = f"{__file__.replace('__init__.py', '')}CONSOLA.TTF", font_size: int = 15, txt: bool = False):
+    def save(self, filename: str, font: str = f"{__file__.replace('__init__.py', '')}CONSOLA.TTF", font_size: int = 15,
+             txt: bool = False):
         """
         Saves the card as a png or txt
 
@@ -57,7 +64,7 @@ class PasswordCard:
         text = self.__str__()
 
         if txt:
-            with open(filename, "w") as file:
+            with open(filename, "w", errors="ignore") as file:
                 file.write(text)
             return
 
@@ -67,9 +74,9 @@ class PasswordCard:
         # determine the size that the image should have
         size, lines = {"x": 0, "y": 0}, []
         for line in text.split("\n"):
-            lines.append(font.getsize(line)[0]+20)
+            lines.append(font.getsize(line)[0] + 20)
         size["x"] = max(lines)
-        size["y"] = len(text.split("\n"))*font.getsize(text)[1]+20
+        size["y"] = int(len(text.split("\n")) * font.getsize(text)[1] * 1.067)
 
         # create image
         img = Image.new("RGB", tuple(size.values()), color="white")
@@ -93,6 +100,30 @@ class PasswordCard:
             filename = f"card_{randint(1000, 100000000)}.png"
         """
 
+    def __getitem__(self, row_column: Tuple[int or str, int]) -> str:
+        row, column = row_column
+        if not isinstance(row, int):
+            if str(row) in self.card[0]:
+                row = self.card[0].index(str(row))
+            else:
+                raise ValueError("Invalid row!")
+        else:
+            row -= 1
+        if row > len(self.card[0]) - 1:
+            raise IndexError("Row to big!")
+
+        if not isinstance(column, int):
+            raise IndexError("Column has to be of type int!")
+        elif column > len(self.card) - 1:
+            raise IndexError("Column to big!")
+
+        if column <= 0:
+            raise IndexError("Column to small!")
+        if row < 0:
+            raise IndexError("Row to small!")
+
+        return self.card[column][row]
+
     def __str__(self) -> str:
         tabulated_card = tabulate(
             self.card,
@@ -107,10 +138,13 @@ class PasswordCard:
         # number looks a bit weird (normally '| 1 |...', bug: '|1 |')
         card, i = '\n'.join(tabulated_card.split("\n")[:2]) + '\n', 1
         for line in tabulated_card.split("\n")[2:]:
-            if len(str(i)) > len(str(i-1)):
-                card += line.replace(f" {i-1}", str(i)) + '\n'
+            if len(str(i)) > len(str(i - 1)):
+                card += line.replace(f" {i - 1}", str(i)) + '\n'
             else:
-                card += line.replace(str(i-1), str(i)) + '\n'
+                card += line.replace(str(i - 1), str(i)) + '\n'
             i += 1
 
         return card
+
+    def __repr__(self) -> List[List[str]]:
+        return self.card
