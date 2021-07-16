@@ -45,7 +45,7 @@ class PasswordCard:
 
         return password
 
-    def save(self, filename: str, font: str = "courbi", font_size: int = 15, txt: bool = False):
+    def save(self, filename: str, font: str = f"{__file__.replace('__init__.py', '')}Consola.TTF", font_size: int = 15, txt: bool = False):
         """
         Saves the card as a png or txt
 
@@ -69,7 +69,7 @@ class PasswordCard:
         for line in text.split("\n"):
             lines.append(font.getsize(line)[0]+20)
         size["x"] = max(lines)
-        size["y"] = len(text.split("\n"))*font.getsize(text)[1]
+        size["y"] = len(text.split("\n"))*font.getsize(text)[1]+20
 
         # create image
         img = Image.new("RGB", tuple(size.values()), color="white")
