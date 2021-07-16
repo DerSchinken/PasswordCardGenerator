@@ -1,2 +1,2 @@
-pillow
-tabulate
+pillow~=8.1.0
+tabulate~=0.8.9

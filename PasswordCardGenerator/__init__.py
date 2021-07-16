@@ -3,6 +3,8 @@ from PIL import Image, ImageDraw, ImageFont
 from tabulate import tabulate
 from random import choices
 
+# Important: Always put out new version on PyPI before pushing to github
+
 
 class PasswordCard:
     """
@@ -87,7 +89,7 @@ class PasswordCard:
         # in case you need a filename generator:
         """
         filename = f"card_{randint(1000, 100000000)}.png"
-        while not path.exists(filename):
+        while path.exists(filename):
             filename = f"card_{randint(1000, 100000000)}.png"
         """
 
