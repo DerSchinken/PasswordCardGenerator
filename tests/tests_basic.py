@@ -11,8 +11,5 @@ if __name__ == '__main__':
     print(card1.get_password(keyword))
     # print(card1.get_password("abcdefghijklmnopqrstuvxyz."))
 
-    try:
-        card1.save("test_card.png")
-    except OSError:
-        print("Error saving as png (wont fix)")
+    card1.save("test_card.png")
     card1.save("test_card.txt", txt=True)
