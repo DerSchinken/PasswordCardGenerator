@@ -45,7 +45,7 @@ class PasswordCard:
 
         return password
 
-    def save(self, filename: str, font: str = f"{__file__.replace('__init__.py', '')}Consola.TTF", font_size: int = 15, txt: bool = False):
+    def save(self, filename: str, font: str = f"{__file__.replace('__init__.py', '')}CONSOLA.TTF", font_size: int = 15, txt: bool = False):
         """
         Saves the card as a png or txt
 
@@ -61,8 +61,12 @@ class PasswordCard:
                 file.write(text)
             return
 
-        # load font
-        font = ImageFont.truetype(font.lower(), font_size)
+        try:
+            # load font
+            font = ImageFont.truetype(font, font_size)
+        except OSError:
+            print(font)
+            print(str(__file__))
 
         # determine the size that the image should have
         size, lines = {"x": 0, "y": 0}, []

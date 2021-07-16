@@ -1,5 +1,4 @@
 # Password Card Generator
-_Saving the password card as a png is not possible on linux/mac right now bug fix in progress_
 ```python 
 from PasswordCardGenerator import PasswordCard
 

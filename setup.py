@@ -8,10 +8,10 @@ with open("requirements.txt", "r") as requirements:
 
 setup(
     name="PasswordCardGenerator",
-    version="1.1.5",
+    version="1.1.15",
     # Major version 1
     # Minor version 1
-    # Maintenance version 5
+    # Maintenance version 15
 
     author="DerSchinken",
     maintainer="DerSchinken",
@@ -19,6 +19,8 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=find_packages(),
+    package_data={"PasswordCardGenerator": ["*.TTF"]},
+    include_package_data=True,
     install_requires=reqs,
     python_requires=">= 3.6",
     project_urls={
