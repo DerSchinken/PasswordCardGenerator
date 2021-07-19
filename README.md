@@ -1,4 +1,6 @@
 # Password Card Generator
+__Docs are coming soon!__    
+Right now this has to do it:
 ```python 
 from PasswordCardGenerator import PasswordCard
 
@@ -22,6 +24,14 @@ print(card1.get_password(keyword))
 card1.save("test_card.png")
 # save the password card as plain text
 card1.save("test_card.txt", txt=True)
+
+# You can get specific items
+row = 2
+column = 5
+print(card1[row, column])
+
+# You can get the raw data
+# card1.raw()
 ```
 
 ## How it works

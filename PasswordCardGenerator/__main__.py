@@ -96,17 +96,18 @@ words = ["a", "ability", "able", "about", "above", "accept", "according", "accou
 
 # initialising the arg parser
 parser = argparse.ArgumentParser(
-    description="Generate a Password Card. Spaces will automatically be replaced with dots (.)",
+    description="Generate a Password Card. Spaces will be replaced with dots (.)",
     prog='PasswordCardGenerator',
 )
 
 # adding the arguments
 parser.add_argument(
     "keyword", nargs="+",
-    help="The keyword that is needed for the Password Card (use GENERATE to generate a keyword). Spaces will automatically be replaced with dots (.)"
+    help="The keyword that is needed for the Password Card (use !GENERATE to generate a keyword). Spaces will be replaced with dots (.)"
 )
 parser.add_argument("-t", "--txt", action="store_true", help="Saves the Password Card as a text file")
 parser.add_argument("-p", "--png", action="store_true", help="Saves the Password Card as a PNG ")
+parser.add_argument("-s", "--seed", action="store", type=str or int, help="Set the seed")
 parser.add_argument("--pwd", action="store_true", help="Gets the Password for [keyword]")
 
 # getting the args
@@ -114,12 +115,12 @@ args = parser.parse_args()
 
 # generating keyword if needed
 keyword, generated = '.'.join(args.keyword), False
-if keyword == "GENERATE":
+if keyword.upper() == "!GENERATE":
     keyword = '.'.join(choices(words, k=2))
     generated = True
 
 # creating the password card and printing it
-card = PasswordCard(len(keyword))
+card = PasswordCard(len(keyword), seed=args.seed)
 print(card)
 
 # print keyword if generated

@@ -1,11 +1,12 @@
 from string import ascii_lowercase as al, ascii_uppercase as au, digits as d
+from random import choices, seed as set_seed
 from PIL import Image, ImageDraw, ImageFont
-from typing import Tuple, List
+from typing import List, Tuple
 from tabulate import tabulate
-from random import choices
-
 
 # Important: Always put out new version on PyPI before pushing to github
+
+DEFAULT = "(default)"
 
 
 class PasswordCard(object):
@@ -15,15 +16,38 @@ class PasswordCard(object):
     Functions:
       get_password: gets the password for [Keyword]
       save: creates an image containing the table
-    """
-    __version__, version = ["1.2.0"]*2
+      raw: returns the raw card data
 
-    def __init__(self, keyword_length: int, segment_length: int = 3):
+    Variables:
+      version: version
+      __version__: version
+
+    Magic Functions:
+      __init__: initialises the password card
+      __getitem__: getitem (card[row, column])
+      __str__: converts the card data to a more readable format
+    """
+    __version__, version = ["1.2.1"] * 2
+
+    def __init__(self,
+                 keyword_length: int,
+                 segment_length: int = 3,
+                 seed=None):
         """
         :param keyword_length: has to be the length of the keyword
+        :param segment_length: segment length
+        :param seed: seed for random.seed
         """
         self.card, printable = [["ABC", "DEF", "GHI", "JKL", "MNO", "PQR", "STU", "VWX", "ZY",
                                  "."]], al + au + d + "{%}?!.,_;\\'[]#"
+
+        # Setting seed
+        if not callable(seed):
+            set_seed(seed)
+        else:
+            raise TypeError(f"Expected seed to be of type not callable; but got {type(seed).__name__}")
+
+        # Creating card
         for i in range(keyword_length):
             self.card.append([''.join(choices(printable, k=segment_length + i - i)) for i in
                               range(10)])  # + i - i because "unused variable"
@@ -51,7 +75,10 @@ class PasswordCard(object):
 
         return password
 
-    def save(self, filename: str, font: str = f"{__file__.replace('__init__.py', '')}CONSOLA.TTF", font_size: int = 15,
+    def save(self,
+             filename: str,
+             font: str = DEFAULT,
+             font_size: int = 15,
              txt: bool = False):
         """
         Saves the card as a png or txt
@@ -69,6 +96,8 @@ class PasswordCard(object):
             return
 
         # load font
+        if font == DEFAULT:
+            font = f"{__file__.replace('__init__.py', '')}CONSOLA.TTF"
         font = ImageFont.truetype(font, font_size)
 
         # determine the size that the image should have
@@ -99,6 +128,9 @@ class PasswordCard(object):
         while path.exists(filename):
             filename = f"card_{randint(1000, 100000000)}.png"
         """
+
+    def raw(self) -> List[List[str]]:
+        return self.card
 
     def __getitem__(self, row_column: Tuple[int or str, int]) -> str:
         row, column = row_column
@@ -145,6 +177,3 @@ class PasswordCard(object):
             i += 1
 
         return card
-
-    def __repr__(self) -> List[List[str]]:
-        return self.card
