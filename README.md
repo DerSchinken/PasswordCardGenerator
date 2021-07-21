@@ -8,6 +8,7 @@ keyword = "YourKeyword"
 
 # Create a password card
 card1 = PasswordCard(keyword_length=len(keyword))
+# You can also just pass in the keyword
 # You can also specify how long a segment should be (default is 3)
 # PasswordCard(keyword_length=len(keyword), segment_length=5)
 

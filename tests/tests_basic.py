@@ -3,7 +3,7 @@ from PasswordCardGenerator import PasswordCard
 if __name__ == '__main__':
     keyword = "VerySafeKeyword"
 
-    card = PasswordCard(len(keyword))
+    card = PasswordCard(keyword)
     print(card)
     print(card.get_password(keyword))
 
@@ -13,5 +13,7 @@ if __name__ == '__main__':
     # rows, columns
     print(card[".", 15])
     print(card[1, 1])
+    print(card[1])
+    print(card["."])
 
     print(card.raw())

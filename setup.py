@@ -9,10 +9,10 @@ with open("requirements.txt", "r") as requirements:
 
 setup(
     name="PasswordCardGenerator",
-    version="1.2.2",
+    version="1.3.1",
     # Major version 1
-    # Minor version 2
-    # Maintenance version 2
+    # Minor version 3
+    # Maintenance version 1
 
     author="DerSchinken",
     maintainer="DerSchinken",
@@ -27,7 +27,7 @@ setup(
     python_requires=">= 3.6",
     project_urls={
         "Homepage": "http://index12.bplaced.net/",
-        "Github": "https://GitHub.com/DerSchinken/PasswordCardGenerator",
+        "Github": "https://github.com/DerSchinken/PasswordCardGenerator",
     },
     keyword=[
         "PasswordCardGenerator",

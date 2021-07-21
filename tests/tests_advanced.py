@@ -7,9 +7,39 @@ if __name__ == "__main__":
     card1 = PasswordCard(len(keyword), seed=10)
     card2 = PasswordCard(len(keyword), seed=10)
     if str(card1) != str(card2):
-        raise Exception("Seed does not work!")
+        raise Exception("'Seed' doesn't work!")
     else:
-        print("Seed works!")
+        print("'Seed' works!")
+
+    if card1 == card2:
+        print("'__eq__' works!")
+    else:
+        raise Exception("'__eq__' doesn't work!")
+
+    # Trying __getitem__
+    try:
+        card1[1, 2, 3]
+    except TypeError:
+        pass
+    else:
+        raise Exception("'__getitem__' doesn't work!")
+
+    try:
+        x = card1[1, 2]
+        x = card1[".", 4], x
+        x = card1[1], x
+    except Exception as e:
+        print(e)
+        raise Exception("'__getitem__' doesn't work")
+
+    print("'__getitem__' works!")
+
+    # Trying __repr__
+    expected = f"'PasswordCard(keyword_length={len(keyword)}, seed=10)'"
+    if repr(card1) == expected and repr(card2) == expected:
+        print("__repr__ works!")
+    else:
+        raise Exception("'__repr__' doesn't work!")
 
     # Trying __main__
     ## trying python
