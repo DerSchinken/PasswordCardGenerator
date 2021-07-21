@@ -27,7 +27,7 @@ class PasswordCard(object):
       __getitem__: getitem (card[row, column])
       __str__: converts the card data to a more readable format
     """
-    __version__, version = ["1.2.1"] * 2
+    __version__, version = ["1.2.2"] * 2
 
     def __init__(self,
                  keyword_length: int,

@@ -3,21 +3,23 @@ from setuptools import setup, find_packages
 # Get Long Description
 with open("README.md", "r") as readme:
     long_description = readme.read().replace("Â", "")
+# Get requirements
 with open("requirements.txt", "r") as requirements:
     reqs = requirements.read().splitlines()
 
 setup(
     name="PasswordCardGenerator",
-    version="1.2.1",
+    version="1.2.2",
     # Major version 1
     # Minor version 2
-    # Maintenance version 1
+    # Maintenance version 2
 
     author="DerSchinken",
     maintainer="DerSchinken",
     description="A Password Card Generator",
     long_description=long_description,
     long_description_content_type="text/markdown",
+    license_files=["LICENSE"],
     packages=find_packages(),
     package_data={"PasswordCardGenerator": ["*.TTF"]},
     include_package_data=True,
