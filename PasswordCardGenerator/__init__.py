@@ -165,9 +165,7 @@ class PasswordCard(object):
         )
 
         # because tabulates showindex starts at 0 i have to do this
-        # so it can start from 1. but there is a catch: if your card has 100
-        # as the keyword_length or 1000 or 10000 and so on, the last
-        # number looks a bit weird (normally '| 1 |...', bug: '|1 |')
+        # so it can start from 1
         card, i = '\n'.join(tabulated_card.split("\n")[:2]) + '\n', 1
         for line in tabulated_card.split("\n")[2:]:
             if len(str(i)) > len(str(i - 1)):
