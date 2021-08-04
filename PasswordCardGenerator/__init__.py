@@ -57,7 +57,8 @@ class PasswordCard(object):
             seed = None
 
         self.__card, printable = [["ABC", "DEF", "GHI", "JKL", "MNO", "PQR", "STU", "VWX", "ZY",
-                                   "."]], string.ascii_lowercase + string.ascii_uppercase + string.digits + "{%}?!.,_;\\'[]#"
+                                   "."]], string.ascii_lowercase + string.ascii_uppercase + string.digits + "{%}?!.," \
+                                                                                                            "_;\\'[]# "
 
         # Setting seed
         if not callable(seed):
