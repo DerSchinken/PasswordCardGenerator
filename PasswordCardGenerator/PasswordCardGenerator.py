@@ -1,4 +1,4 @@
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageColor
 import tabulate
 import typing
 import random
@@ -52,9 +52,9 @@ class PasswordCard(object):
             keyword_length = len(keyword_length)
         elif not isinstance(keyword_length, int) or isinstance(keyword_length, bool):
             raise TypeError(f"keyword_length expected int or str; got '{type(keyword_length).__name__}'")
-        if segment_length is DEFAULT:
+        if segment_length == DEFAULT:
             segment_length = 3
-        if seed is DEFAULT:
+        if seed == DEFAULT:
             seed = None
 
         self.__card, printable = [["ABC", "DEF", "GHI", "JKL", "MNO", "PQR", "STU", "VWX", "ZY",
@@ -72,18 +72,28 @@ class PasswordCard(object):
             self.__card.append([''.join(random.choices(printable, k=segment_length + i - i)) for i in
                                 range(10)])  # + i - i because "unused variable"
 
-    def save(self, filename: str, font: str = DEFAULT, font_size: int = DEFAULT, txt: bool = DEFAULT):
+    def save(
+            self,
+            filename: str,
+            font_size: int = DEFAULT,
+            background: str = DEFAULT,
+            font: str = DEFAULT,
+            font_color: str = DEFAULT,
+            txt: bool = DEFAULT
+    ):
         """
         Saves the card as a png or txt
 
         :param filename: filename
         :param font: font
         :param font_size: font size
+        :param font_color: font color
         :param txt: set to true if you dont want to convert the card to a png
+        :param background: set the background (in hex)
         """
         text = self.__str__()
 
-        if txt is DEFAULT:
+        if txt == DEFAULT:
             txt = False
         if txt:
             with open(filename, "w", errors="ignore") as file:
@@ -91,11 +101,23 @@ class PasswordCard(object):
             return
 
         # load font
-        if font is DEFAULT:
+        if font == DEFAULT:
             font = f"{__file__.replace('PasswordCardGenerator.py', '')}CONSOLA.TTF"
-        if font_size is DEFAULT:
+        if font_size == DEFAULT:
             font_size = 15
         font = ImageFont.truetype(font, font_size)
+
+        # get background
+        if background == DEFAULT:
+            background = ImageColor.getrgb("white")
+        else:
+            background = ImageColor.getrgb(background)
+
+        # get font color
+        if font_color == DEFAULT:
+            font_color = ImageColor.getrgb("black")
+        else:
+            font_color = ImageColor.getrgb(font_color)
 
         # determine the size that the image should have
         size, lines = {"x": 0, "y": 0}, []
@@ -105,14 +127,14 @@ class PasswordCard(object):
         size["y"] = int(len(text.split("\n")) * font.getsize(text)[1] * 1.067)
 
         # create image
-        img = Image.new("RGB", tuple(size.values()), color="white")
+        img = Image.new("RGB", tuple(size.values()), color=background)
 
         # write text
         pen = ImageDraw.Draw(img)
         pen.text(
             (10, 10),
             text,
-            fill=(0, 0, 0),
+            fill=font_color,
             font=font,
         )
 
@@ -121,6 +143,9 @@ class PasswordCard(object):
 
         # in case you need a filename generator:
         """
+        from random import randint
+        from os import path
+        
         filename = f"card_{randint(1000, 100000000)}.png"
         while path.exists(filename):
             filename = f"card_{randint(1000, 100000000)}.png"

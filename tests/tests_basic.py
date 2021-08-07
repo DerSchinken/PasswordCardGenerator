@@ -8,6 +8,7 @@ if __name__ == '__main__':
     print(card.get_password(keyword))
 
     card.save("test_card.png")
+    card.save("test_card.png", background="black", font_color="white")
     card.save("test_card.txt", txt=True)
 
     # rows, columns
