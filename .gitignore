@@ -3,4 +3,3 @@ __pycache__/*
 .idea
 .idea/*
 tests/*.png
-tests/*.txt
