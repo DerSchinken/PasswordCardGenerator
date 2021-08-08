@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/generate.css')}}">
+
     <title>Password Card Generator</title>
 </head>
 <body>
-    <code>
-        {{text}}
-    </code>
-    <img src="{{filename}}" alt="">
+<div style="border: 6.5px solid #282828; border-radius: 10px;">
+<code>{%autoescape false%}{{text}}{%endautoescape%}<img src="{{filename}}" alt=""></code>
+</div>
 </body>
 <footer>
 

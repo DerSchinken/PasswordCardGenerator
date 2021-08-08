@@ -9,6 +9,7 @@ if __name__ == '__main__':
 
     card.save("test_card.png")
     card.save("test_card.png", background="black", font_color="white")
+    card.save("test_card.png", background="transparent", font_color="white")
     card.save("test_card.txt", txt=True)
 
     # rows, columns

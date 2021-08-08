@@ -8,20 +8,23 @@
     <title>Password Card Generator</title>
 </head>
 <body>
-<div class="inputs">
-    <form method="POST">
+<div class="inputs card">
+    <form method="POST" id="form">
         <h1>PasswordCard</h1>
-        {{ error }} <br />
+        <p style="color: lightcoral; margin: 0;">{{ error }}</p> <br />
         <label>
-            Password length: <input type="text" name="password_length" id="pl" value="Please don't use your password!"> <br />
+            Password length:
+            <input type="text" name="password_length" id="pl" value="Please don't use your password!" style="color: grey;"> <br />
             <input type="checkbox" id="npl" name="no_pwd_len">No Password Length<br />
             <input type="checkbox" name="ascii">Ascii Card<br/>
-            <details class="advanced-options">
+            <details>
                 <summary>Advanced options</summary>
-                Seed: <input type="text" name="seed"> <br />
+                Seed: <input type="text" name="seed" style="color: grey; margin-bottom: 0;">
             </details>
         </label>
-        <input type="submit" id="submit" value="Generate">
+        <a href="#" id="submit">
+            Generate
+        </a>
     </form>
 </div>
 </body>
@@ -39,7 +42,10 @@
         }
 
         document.getElementById("pl").onclick = function _() {
-            document.getElementById("pl").value = "";
+            const pwd_len = document.getElementById("pl");
+            if (pwd_len.value === "Please don't use your password!") {
+                pwd_len.value = "";
+            }
         }
 
         document.getElementById("submit").onclick = function _() {
@@ -47,6 +53,7 @@
             if (pwd_len.value === "Please don't use your password!") {
                 pwd_len.value = "";
             }
+            document.getElementById("form").submit();
         }
     </script>
 </footer>

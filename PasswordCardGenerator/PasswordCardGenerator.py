@@ -111,7 +111,10 @@ class PasswordCard(object):
         if background == DEFAULT:
             background = ImageColor.getrgb("white")
         else:
-            background = ImageColor.getrgb(background)
+            if background.lower() == "transparent":
+                background = (0, 0, 0, 0)
+            else:
+                background = ImageColor.getrgb(background)
 
         # get font color
         if font_color == DEFAULT:
@@ -127,7 +130,7 @@ class PasswordCard(object):
         size["y"] = int(len(text.split("\n")) * font.getsize(text)[1] * 1.067)
 
         # create image
-        img = Image.new("RGB", tuple(size.values()), color=background)
+        img = Image.new("RGBA", tuple(size.values()), background)
 
         # write text
         pen = ImageDraw.Draw(img)

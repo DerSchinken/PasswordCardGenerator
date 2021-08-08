@@ -36,6 +36,9 @@ def index():
             return render_template("index.html", error=error)
         if password_len:
             if password_len.isdigit():
+                if int(password_len) > 200:
+                    error = "Your password length is to big!"
+                    return render_template("index.html", error=error)
                 url += f"password_length={password_len}&"
             else:
                 error = "Password length has to be a number!"
@@ -64,6 +67,9 @@ def generate():
     text = request.args.get("ascii", False)
     seed = request.args.get("seed")
 
+    if not any((password_len, npl, text, seed)):
+        abort(400)
+
     if npl and not password_len:
         password_len = 15
 
@@ -74,13 +80,13 @@ def generate():
     card: PasswordCard = eval(code)
     
     if text:
-        return render_template("generate.html", text=str(card))
+        return render_template("generate.html", text=str(card).replace("\n", "<br />"))
 
     filename = f"static/img/cards/card_{randint(1000, 100000000)}.png"
     while os.path.exists(filename):
         filename = f"static/img/cards/card_{randint(1000, 100000000)}.png"
 
-    card.save(filename)
+    card.save(filename, background="transparent", font_color="white")
 
     return render_template("generate.html", filename=filename)
 

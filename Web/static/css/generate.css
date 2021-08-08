@@ -1,0 +1,46 @@
+html {
+	margin: auto;
+    width: 650px;
+    font-family: Consolas;
+    white-space: pre;
+}
+
+/* custom selection  color + removing all effects from text */
+::-moz-selection { background: rgba(128, 0, 128, 0.7); text-decoration: none; text-shadow: none; }
+::selection { background: rgba(128, 0, 128, 0.7); text-decoration: none; text-shadow: none; }
+
+/* Custom scroll bar doesnt work for firefox */
+body::-webkit-scrollbar { background: #1e1e24; }
+body::-webkit-scrollbar-thumb { background: #6649b8; }
+
+/*noinspection CssReplaceWithShorthandSafely,CssNoGenericFontName*/
+body {
+	background:
+		/* top, transparent black, faked with gradient */
+        linear-gradient(
+          rgba(0, 0, 0, 0.5),
+          rgba(0, 0, 0, 0.5)
+        ),
+        /* bottom, image */
+        url("../img/background.png");
+
+	background-repeat: no-repeat;
+  	background-attachment: fixed;
+  	background-size: cover;
+
+	color: white;
+}
+
+/*noinspection CssNonIntegerLengthInPixels*/
+code {
+    width: 672px;
+	padding: 2.6px 0;
+	background-color: #181818;
+}
+
+footer {
+	bottom: 0;
+	text-align: center;
+	width: 100%;
+	position: fixed;
+}
