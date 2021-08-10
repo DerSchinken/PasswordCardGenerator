@@ -80,7 +80,12 @@ def generate():
     card: PasswordCard = eval(code)
     
     if text:
-        return render_template("generate.html", text=str(card).replace("\n", "<br />"), txt="code")
+        return render_template(
+            "generate.html",
+            text=str(card).replace("\n", "<br />"),
+            txt="code",
+            warning="The ascii web version is a bit buggy fix in progress"
+        )
 
     filename = f"static/img/cards/card_{randint(1000, 100000000)}.png"
     while os.path.exists(filename):
