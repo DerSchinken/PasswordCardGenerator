@@ -70,9 +70,6 @@ def generate():
     if not any((password_len, npl, text, seed)):
         abort(400)
 
-    if npl and not password_len:
-        password_len = 15
-
     if password_len:
         if password_len.isdigit():
             if int(password_len) > 200:
@@ -89,6 +86,9 @@ def generate():
                 302,
                 {"error": error}
             )
+
+    if npl and not password_len:
+        password_len = 15
 
     code = f"PasswordCard({password_len}"
     if seed:
