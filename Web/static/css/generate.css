@@ -32,9 +32,11 @@ body {
 }
 
 /*noinspection CssNonIntegerLengthInPixels*/
-code {
+img {
     width: 672px;
 	padding: 2.6px 0;
+	border: 6.5px solid #282828;
+	border-radius: 10px;
 	background-color: #181818;
 }
 
