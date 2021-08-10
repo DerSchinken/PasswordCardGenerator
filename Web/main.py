@@ -101,7 +101,7 @@ def generate():
             "generate.html",
             text=str(card).replace("\n", "<br />"),
             txt="code",
-            warning="The ascii web version is a bit buggy fix in progress"
+            warning=""
         )
 
     filename = f"static/img/cards/card_{randint(1000, 100000000)}.png"
