@@ -69,7 +69,7 @@ class PasswordCard(object):
 
         # Creating card
         for i in range(keyword_length):
-            self.__card.append([''.join(random.choices(printable, k=segment_length + i - i)) for i in
+            self.__card.append([''.join(random.choices(printable.replace(" ", ""), k=segment_length + i - i)) for i in
                                 range(10)])  # + i - i because "unused variable"
 
     def save(

@@ -40,6 +40,18 @@ img {
 	background-color: #181818;
 }
 
+code {
+    width: 672px;
+	padding: 2.6px 0;
+	background-color: #181818;
+}
+
+.code {
+	position: absolute;
+	border: 6.5px solid #282828;
+	border-radius: 10px;
+}
+
 footer {
 	bottom: 0;
 	text-align: center;

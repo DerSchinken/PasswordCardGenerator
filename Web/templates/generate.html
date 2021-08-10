@@ -8,9 +8,10 @@
     <title>Password Card Generator</title>
 </head>
 <body>
-<div>
-<code>{%autoescape false%}{{text}}{%endautoescape%}<img src="{{filename}}" alt=""></code>
+<div class="{{txt}}">
+<code>{%autoescape false%}{{text}}{%endautoescape%}</code>
 </div>
+{%autoescape false%}{{filename}}{%endautoescape%}
 </body>
 <footer>
 

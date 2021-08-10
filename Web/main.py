@@ -80,15 +80,16 @@ def generate():
     card: PasswordCard = eval(code)
     
     if text:
-        return render_template("generate.html", text=str(card).replace("\n", "<br />"))
+        return render_template("generate.html", text=str(card).replace("\n", "<br />"), txt="code")
 
     filename = f"static/img/cards/card_{randint(1000, 100000000)}.png"
     while os.path.exists(filename):
         filename = f"static/img/cards/card_{randint(1000, 100000000)}.png"
 
-    card.save(filename, background="transparent", font_color="white")
+    card.save(filename, background="#181818", font_color="white")
 
-    return render_template("generate.html", filename=filename)
+    return render_template("generate.html", filename=f"<img src='{filename}' alt='Oh there went something wrong. "
+                                                     f"Please try again'>")
 
 
 # run in thread
