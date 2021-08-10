@@ -8,7 +8,7 @@ import os
 
 host = "0.0.0.0"
 port = 80
-clearing_time = 60*60
+clearing_time = 60 * 60
 
 app = Flask(__name__)
 app.secret_key = b'\xb0\x03~\x96\xf5\x10\xc97\xf9m#\xfb\xdaK\xc7\x9e\xe2\x89!\x93>\xf01J'
@@ -73,12 +73,29 @@ def generate():
     if npl and not password_len:
         password_len = 15
 
+    if password_len:
+        if password_len.isdigit():
+            if int(password_len) > 200:
+                error = "Your password length is to big!"
+                return make_response(
+                    redirect("/"),
+                    302,
+                    {"error": error}
+                )
+        else:
+            error = "Password length has to be a number!"
+            return make_response(
+                redirect("/"),
+                302,
+                {"error": error}
+            )
+
     code = f"PasswordCard({password_len}"
     if seed:
         code += f", seed={seed}"
     code += ")"
     card: PasswordCard = eval(code)
-    
+
     if text:
         return render_template(
             "generate.html",
