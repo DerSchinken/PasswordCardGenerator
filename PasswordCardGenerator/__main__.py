@@ -141,6 +141,7 @@ if args.png:
 
     # saving the card
     card.save(filename)
+    print(f"Saved card as '{filename}'")
 ## save as text if flag is set
 if args.txt:
     # checking if a filename already got generated
@@ -154,3 +155,4 @@ if args.txt:
 
     # saving the card
     card.save(filename, txt=True)
+    print(f"Saved card as '{filename}'")
