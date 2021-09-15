@@ -1,4 +1,3 @@
-from argparse import BooleanOptionalAction
 from PIL import Image, ImageDraw, ImageFont, ImageColor
 import tabulate
 import typing
