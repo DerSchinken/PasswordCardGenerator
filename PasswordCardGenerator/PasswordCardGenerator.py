@@ -14,30 +14,35 @@ class PasswordCard(object):
     Generates a Password Card
 
     Functions:
-      get_password: gets the password for [Keyword]
-      save: creates an image containing the table
-      raw: returns the raw card data
+      get_password        : gets the password for [Keyword]
+      save                : creates an image containing the table
+      raw                 : returns the raw card data
 
     Variables:
-      version: version
-      __version__: version
-      __card: raw card data
+      version             : version
+      __version__         : version
+      __card              : raw card data
 
     Magic Functions:
-      __init__: initialises the password card
-      __getitem__: getitem (card[row, column])
-      __eq__: gets the string of [other] and self and compares them
-      __str__: converts the card data to a more readable format
-      __repr__: repr
+      __init__            : initialises the password card
+      __getitem__         : getitem (card[row, column])
+      __eq__              : gets the string of [other] and self and compares them
+      __str__             : converts the card data to a more readable format
+      __repr__            : repr
 
     Unlisted:
-      __keyword_length: keyword_length for repr
-      __segment_length: segment_length for repr
-      __seed: seed for repr
+      __keyword_length    : keyword_length for repr
+      __segment_length    : segment_length for repr
+      __seed              : seed for repr
     """
     __version__, version = ["1.3.1"] * 2
 
-    def __init__(self, keyword_length: int or str, segment_length: int = DEFAULT, seed=DEFAULT):
+    def __init__(
+        self,
+        keyword_length: int or str,
+        segment_length: int = DEFAULT,
+        seed=DEFAULT
+    ) -> None:
         """
         :param keyword_length: has to be the length of the keyword
         :param segment_length: segment length
@@ -57,30 +62,32 @@ class PasswordCard(object):
         if seed == DEFAULT:
             seed = None
 
-        self.__card, printable = [["ABC", "DEF", "GHI", "JKL", "MNO", "PQR", "STU", "VWX", "ZY",
-                                   "."]], string.ascii_lowercase + string.ascii_uppercase + string.digits + "{%}?!.," \
-                                                                                                            "_;\\'[]# "
+        # card: [row][column]
+        self.__card = [["ABC", "DEF", "GHI", "JKL", "MNO", "PQR", "STU", "VWX", "ZY", "."]]
+        printable = string.ascii_lowercase + string.ascii_uppercase + string.digits + "{%}?!.,_;\\'[]# "
 
         # Setting seed
         if not callable(seed):
             random.seed(seed)
         else:
-            raise TypeError(f"Expected seed to be of type not callable; but got {type(seed).__name__}")
+            raise TypeError(f"Expected seed to be not callable; but got {type(seed).__name__}")
 
         # Creating card
         for i in range(keyword_length):
-            self.__card.append([''.join(random.choices(printable.replace(" ", ""), k=segment_length + i - i)) for i in
-                                range(10)])  # + i - i because "unused variable"
+            self.__card.append([
+                ''.join(random.choices(printable.replace(" ", ""), k=segment_length + i - i))
+                for i in range(10)
+            ])  # + i - i because "unused variable"
 
     def save(
-            self,
-            filename: str,
-            font_size: int = DEFAULT,
-            background: str = DEFAULT,
-            font: str = DEFAULT,
-            font_color: str = DEFAULT,
-            txt: bool = DEFAULT
-    ):
+        self,
+        filename: str,
+        font_size: int = DEFAULT,
+        background: str = DEFAULT,
+        font: str = DEFAULT,
+        font_color: str = DEFAULT,
+        txt: bool = DEFAULT
+    ) -> None:
         """
         Saves the card as a png or txt
 
@@ -156,7 +163,7 @@ class PasswordCard(object):
 
     def raw(self) -> typing.List[typing.List[str]]:
         """
-        Returns self.card
+        Returns self.__card
         """
         return self.__card
 
@@ -164,28 +171,28 @@ class PasswordCard(object):
         """
         Gets the password for [keyword]
         """
-        password, o, keyword = "", 1, keyword.upper()
+        password, keyword_length, keyword = "", 1, keyword.upper()
         # check if keyword has a good length
         for i in range(len(keyword)):
-            o += 1
-        if o > len(self.__card):
+            keyword_length += 1
+        if keyword_length > len(self.__card):
             raise NameError("Keyword is to long!")
         else:
-            o = 1
+            row = 1
 
         for char in keyword:
-            # get position of keyword char
-            pos = None
+            # get column of keyword char
+            column = None
             for i in range(len(self.__card[0])):
                 if char in self.__card[0][i]:
-                    pos = i
+                    column = i
                     break
             # when position not found raise "invalid keyword"
-            if pos is None:
+            if column is None:
                 raise NameError("Invalid Keyword!")
 
-            password += self.__card[o][pos]
-            o += 1
+            password += self.__card[row][column]
+            row += 1
 
         return password
 
@@ -240,7 +247,7 @@ class PasswordCard(object):
 
             return ret
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         return str(self) == str(other)
 
     def __str__(self) -> str:
@@ -275,4 +282,4 @@ class PasswordCard(object):
             ret += f", seed={self.__seed}"
         ret += ")"
 
-        return repr(ret)
+        return ret
