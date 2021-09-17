@@ -3,6 +3,7 @@ from _thread import start_new_thread
 from random import randint
 from time import sleep
 from flask import *
+# ^ ik ik bad practice but i dont want a 300 mile long line
 import logging
 import os
 
@@ -12,6 +13,7 @@ clearing_time = 60 * 60
 
 app = Flask(__name__)
 app.secret_key = b'\xb0\x03~\x96\xf5\x10\xc97\xf9m#\xfb\xdaK\xc7\x9e\xe2\x89!\x93>\xf01J'
+# TODO: ^ Always change after uploading to github or when downloaded
 
 
 # configure logging
