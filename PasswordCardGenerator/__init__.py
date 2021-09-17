@@ -1,1 +1,1 @@
-from .PasswordCardGenerator import PasswordCard
+from .PasswordCardGenerator import PasswordCard, DEFAULT
