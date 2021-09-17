@@ -37,11 +37,12 @@ class PasswordCard(object):
     """
     __version__, version = ["1.3.1"] * 2
 
-    def __init__(self,
-                keyword_length: int or str,
-                segment_length: int = DEFAULT, 
-                seed=DEFAULT
-            ) -> None:
+    def __init__(
+        self,
+        keyword_length: int or str,
+        segment_length: int = DEFAULT,
+        seed=DEFAULT
+    ) -> None:
         """
         :param keyword_length: has to be the length of the keyword
         :param segment_length: segment length
@@ -79,14 +80,14 @@ class PasswordCard(object):
             ])  # + i - i because "unused variable"
 
     def save(
-            self,
-            filename: str,
-            font_size: int = DEFAULT,
-            background: str = DEFAULT,
-            font: str = DEFAULT,
-            font_color: str = DEFAULT,
-            txt: bool = DEFAULT
-        ) -> None:
+        self,
+        filename: str,
+        font_size: int = DEFAULT,
+        background: str = DEFAULT,
+        font: str = DEFAULT,
+        font_color: str = DEFAULT,
+        txt: bool = DEFAULT
+    ) -> None:
         """
         Saves the card as a png or txt
 
@@ -195,10 +196,7 @@ class PasswordCard(object):
 
         return password
 
-    def __getitem__(
-                self,
-                row_column: typing.Tuple[int or str, int] or int or str
-            ) -> str or typing.List[str]:
+    def __getitem__(self, row_column: typing.Tuple[int or str, int] or int or str) -> str or typing.List[str]:
         # check if only the row is given
         only_row = False
         if not isinstance(row_column, tuple):
