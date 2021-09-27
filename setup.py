@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 
 # Get Long Description
 with open("README.md", "r") as readme:
@@ -9,10 +9,10 @@ with open("requirements.txt", "r") as requirements:
 
 setup(
     name="PasswordCardGenerator",
-    version="1.3.6",
+    version="1.3.8",
     # Major version 1
     # Minor version 3
-    # Maintenance version 6
+    # Maintenance version 8
 
     author="DerSchinken",
     maintainer="DerSchinken",
@@ -20,7 +20,10 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     license_files=["LICENSE"],
-    packages=find_packages(),
+    packages=[
+        "PasswordCardGenerator",
+        "PasswordCardGenerator.GUI"
+    ],
     package_data={"PasswordCardGenerator": ["*.TTF"]},
     include_package_data=True,
     install_requires=reqs,

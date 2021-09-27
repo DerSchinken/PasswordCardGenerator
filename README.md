@@ -35,6 +35,16 @@ print(card1[row, column])
 # card1.raw()
 ```
 
+There is also a GUI, but it is still in progress so don't expect anything  
+to use the gui type
+```
+python -m "PasswordCardGenerator.GUI"
+``` 
+or 
+```
+python3 -m "PasswordCardGenerator.GUI"
+``` 
+
 ## How it works
 _You need a Keyword for a Password card to work!_      
 To get the password you take one character at a time.  
