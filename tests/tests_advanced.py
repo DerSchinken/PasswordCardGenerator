@@ -35,7 +35,7 @@ if __name__ == "__main__":
     print("'__getitem__' works!")
 
     # Trying __repr__
-    expected = f"PasswordCard(keyword_length={len(keyword)}, seed=10)"
+    expected = f"PasswordCard(keyword_length={len(keyword)}, segment_length=3, seed=10)"
     if repr(card1) == expected and repr(card2) == expected:
         print("__repr__ works!")
     else:
