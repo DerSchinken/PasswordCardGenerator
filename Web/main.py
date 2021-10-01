@@ -8,12 +8,10 @@ import logging
 import os
 
 host = "0.0.0.0"
-port = 80
+port = 5000
 clearing_time = 60 * 60
 
 app = Flask(__name__)
-app.secret_key = b'\xb0\x03~\x96\xf5\x10\xc97\xf9m#\xfb\xdaK\xc7\x9e\xe2\x89!\x93>\xf01J'
-# TODO: ^ Always change after uploading to github or when downloaded
 
 
 # configure logging
@@ -131,6 +129,15 @@ def clear_card_dir():
 
         # wait 1h before clearing again
         sleep(clearing_time)
+
+
+def run(new_port: int = port, debug: bool = False):
+    start_new_thread(clear_card_dir, ())
+    app.run(
+        host=host,
+        port=new_port,
+        debug=debug,
+    )
 
 
 if __name__ == "__main__":

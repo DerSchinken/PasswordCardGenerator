@@ -103,7 +103,8 @@ parser = argparse.ArgumentParser(
 # adding the arguments
 parser.add_argument(
     "keyword", nargs="+",
-    help="The keyword that is needed for the Password Card (use !GENERATE to generate a keyword). Spaces will be replaced with dots (.)"
+    help="The keyword that is needed for the Password Card (use !GENERATE to generate a keyword). Spaces will be "
+         "replaced with dots (.) "
 )
 parser.add_argument("-t", "--txt", action="store_true", help="Saves the Password Card as a text file")
 parser.add_argument("-p", "--png", action="store_true", help="Saves the Password Card as a PNG ")
@@ -140,7 +141,7 @@ if args.png:
         filename = f"card_{randint(1000, 100000000)}.png"
 
     # saving the card
-    card.save(filename)
+    card.save_png(filename)
     print(f"Saved card as '{filename}'")
 ## save as text if flag is set
 if args.txt:
@@ -154,5 +155,5 @@ if args.txt:
         filename = f"card_{randint(1000, 100000000)}.txt"
 
     # saving the card
-    card.save(filename, txt=True)
+    card.save_text(filename)
     print(f"Saved card as '{filename}'")

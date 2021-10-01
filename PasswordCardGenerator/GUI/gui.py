@@ -1,5 +1,5 @@
 from PasswordCardGenerator import PasswordCard
-from tkinter import filedialog
+from tkinter import filedialog, messagebox
 from tkinter import *
 from tkinter.ttk import *
 from os import path, remove
@@ -8,6 +8,7 @@ from random import randint
 app = Tk()
 app.run = app.mainloop
 app.title("Password Card Generator")
+app.iconphoto(False, PhotoImage(file="assets/img/Logo.png"))
 app.geometry("250x100")
 app.resizable(width=False, height=False)
 
@@ -30,6 +31,7 @@ def generate_password_card():
     # generate the function call
     card: str = "PasswordCard("
     if not _len:
+        messagebox.showerror("Error", "No Password length was given!")
         return
     card += _len
     if _seed:
@@ -49,6 +51,7 @@ def generate_password_card():
     card: PhotoImage = PhotoImage(file=filename)
     # create popup with the card as image
     popup = Toplevel(app)
+    popup.iconphoto(False, PhotoImage(file="assets/img/Logo.png"))
     popup.title("Password Card")
     x = Label(popup, image=card)
     x.image = card

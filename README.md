@@ -1,8 +1,9 @@
 # Password Card Generator
+
 __Docs are coming soon!__    
 Right now this has to do it:
 ```python 
-from PasswordCardGenerator import PasswordCard
+from PasswordCardGenerator import PasswordCard, save_card, load_card
 
 keyword = "YourKeyword"
 
@@ -21,10 +22,13 @@ print(card1)
 # Get the password for keyword
 print(card1.get_password(keyword))
 
-# save the password card as an image (default)
-card1.save("test_card.png")
+# save the password card as an image
+card1.save_png("test_card.png")
 # save the password card as plain text
-card1.save("test_card.txt", txt=True)
+card1.save_text("test_card.txt")
+# You can also save the card and load it
+save_card(card1, "test.card")
+x = load_card("test.card")
 
 # You can get specific items
 row = 2
@@ -32,7 +36,7 @@ column = 5
 print(card1[row, column])
 
 # You can get the raw data
-# card1.raw()
+print(card1.raw())
 ```
 
 There is also a GUI, but it is still in progress so don't expect anything  

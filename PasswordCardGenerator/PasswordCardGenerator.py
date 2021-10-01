@@ -1,12 +1,19 @@
 from PIL import Image, ImageDraw, ImageFont, ImageColor
-import tabulate
-import typing
-import random
-import string
+from pickle import dump, load, HIGHEST_PROTOCOL
+from random import seed as rseed, choices
+from string import ascii_letters, digits
+from typing import List, Tuple
+from tabulate import tabulate
 
 # Important: Always put out new version on PyPI before pushing to github
 
-DEFAULT = "(default)"
+
+class Default(object):
+    def __repr__(self):
+        return "Default"
+
+
+DEFAULT = Default()
 
 
 class PasswordCard(object):
@@ -35,22 +42,19 @@ class PasswordCard(object):
       __segment_length    : segment_length for repr
       __seed              : seed for repr
     """
-    __version__, version = ["1.3.1"] * 2
+    __version__, version = ["1.4.2"] * 2
 
     def __init__(
-        self,
-        keyword_length: int or str,
-        segment_length: int = DEFAULT,
-        seed=DEFAULT
+            self,
+            keyword_length: int or str,
+            segment_length: int = DEFAULT,
+            seed=DEFAULT
     ) -> None:
         """
         :param keyword_length: has to be the length of the keyword
         :param segment_length: segment length
         :param seed: seed for random.seed
         """
-        self.__keyword_length = keyword_length
-        self.__segment_length = segment_length
-        self.__seed = seed
 
         # check keyword_lengths type
         if isinstance(keyword_length, str):
@@ -62,50 +66,45 @@ class PasswordCard(object):
         if seed == DEFAULT:
             seed = None
 
+        self.__keyword_length = keyword_length
+        self.__segment_length = segment_length
+        self.__seed = seed
+
         # card: [row][column]
         self.__card = [["ABC", "DEF", "GHI", "JKL", "MNO", "PQR", "STU", "VWX", "ZY", "."]]
-        printable = string.ascii_lowercase + string.ascii_uppercase + string.digits + "{%}?!.,_;\\'[]# "
+        printable = ascii_letters + digits + "{%}?!.,_;\\'[]# "
 
         # Setting seed
         if not callable(seed):
-            random.seed(seed)
+            rseed(seed)
         else:
             raise TypeError(f"Expected seed to be not callable; but got {type(seed).__name__}")
 
         # Creating card
         for i in range(keyword_length):
             self.__card.append([
-                ''.join(random.choices(printable.replace(" ", ""), k=segment_length + i - i))
+                ''.join(choices(printable.replace(" ", ""), k=segment_length + i - i))
                 for i in range(10)
             ])  # + i - i because "unused variable"
 
-    def save(
-        self,
-        filename: str,
-        font_size: int = DEFAULT,
-        background: str = DEFAULT,
-        font: str = DEFAULT,
-        font_color: str = DEFAULT,
-        txt: bool = DEFAULT
+    def save_png(
+            self,
+            filename: str,
+            font_size: int = DEFAULT,
+            background: str = DEFAULT,
+            font: str = DEFAULT,
+            font_color: str = DEFAULT,
     ) -> None:
         """
-        Saves the card as a png or txt
+        Saves the card as a png
 
         :param filename: filename
         :param font: font
         :param font_size: font size
         :param font_color: font color
-        :param txt: set to true if you dont want to convert the card to a png
         :param background: set the background (in hex)
         """
         text = self.__str__()
-
-        if txt == DEFAULT:
-            txt = False
-        if txt:
-            with open(filename, "w", errors="ignore") as file:
-                file.write(text)
-            return
 
         # load font
         if font == DEFAULT:
@@ -161,7 +160,16 @@ class PasswordCard(object):
             filename = f"card_{randint(1000, 100000000)}.png"
         """
 
-    def raw(self) -> typing.List[typing.List[str]]:
+    def save_text(self, filename):
+        """
+        Save the card as text
+
+        :param filename: filename
+        """
+        with open(filename, "w", errors="ignore") as file:
+            file.write(str(self))
+
+    def raw(self) -> List[List[str]]:
         """
         Returns self.__card
         """
@@ -196,7 +204,7 @@ class PasswordCard(object):
 
         return password
 
-    def __getitem__(self, row_column: typing.Tuple[int or str, int] or int or str) -> str or typing.List[str]:
+    def __getitem__(self, row_column: Tuple[int or str, int] or int or str) -> str or List[str]:
         # check if only the row is given
         only_row = False
         if not isinstance(row_column, tuple):
@@ -251,7 +259,7 @@ class PasswordCard(object):
         return str(self) == str(other)
 
     def __str__(self) -> str:
-        tabulated_card = tabulate.tabulate(
+        tabulated_card = tabulate(
             self.__card,
             headers="firstrow",
             showindex="always",
@@ -275,11 +283,28 @@ class PasswordCard(object):
         return card
 
     def __repr__(self):
-        ret = f"PasswordCard(keyword_length={self.__keyword_length}"
-        if self.__segment_length is not DEFAULT:
-            ret += f", segment_length={self.__segment_length}"
-        if self.__seed is not DEFAULT:
-            ret += f", seed={self.__seed}"
-        ret += ")"
+        ret = f"PasswordCard(keyword_length={repr(self.__keyword_length)}"
+        ret += f", segment_length={repr(self.__segment_length)}"
+        ret += f", seed={repr(self.__seed)})"
 
         return ret
+
+
+def save_card(card: PasswordCard, filename: str):
+    """
+    Saves card via pickle dumping it
+    also works with other objects
+    """
+    with open(filename, "wb") as file:
+        dump(card, file, HIGHEST_PROTOCOL)
+
+
+def load_card(filename: str) -> PasswordCard:
+    """
+    loads pickle dumped objects
+    also works with other objects
+    """
+    with open(filename, "rb") as file:
+        card = load(file)
+
+    return card
