@@ -108,7 +108,7 @@ def generate():
     while os.path.exists(filename):
         filename = f"static/img/cards/card_{randint(1000, 100000000)}.png"
 
-    card.save(filename, background="#181818", font_color="white")
+    card.save_png(filename, background="#181818", font_color="white")
 
     return render_template("generate.html", filename=f"<img src='{filename}' alt='Oh there went something wrong. "
                                                      f"Please try again'>")

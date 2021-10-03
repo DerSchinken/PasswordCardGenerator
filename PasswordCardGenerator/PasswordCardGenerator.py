@@ -22,7 +22,8 @@ class PasswordCard(object):
 
     Functions:
       get_password        : gets the password for [Keyword]
-      save                : creates an image containing the table
+      save_png            : saves an image of the card
+      save_text           : saves the card as text
       raw                 : returns the raw card data
 
     Variables:
@@ -42,7 +43,7 @@ class PasswordCard(object):
       __segment_length    : segment_length for repr
       __seed              : seed for repr
     """
-    __version__, version = ["1.4.2"] * 2
+    __version__, version = ["1.4.3"] * 2
 
     def __init__(
             self,
@@ -61,6 +62,7 @@ class PasswordCard(object):
             keyword_length = len(keyword_length)
         elif not isinstance(keyword_length, int) or isinstance(keyword_length, bool):
             raise TypeError(f"keyword_length expected int or str; got '{type(keyword_length).__name__}'")
+
         if segment_length == DEFAULT:
             segment_length = 3
         if seed == DEFAULT:
@@ -72,7 +74,7 @@ class PasswordCard(object):
 
         # card: [row][column]
         self.__card = [["ABC", "DEF", "GHI", "JKL", "MNO", "PQR", "STU", "VWX", "ZY", "."]]
-        printable = ascii_letters + digits + "{%}?!.,_;\\'[]# "
+        printable = ascii_letters + digits + "{%}?!.,_;\\'[]#"
 
         # Setting seed
         if not callable(seed):
@@ -82,10 +84,12 @@ class PasswordCard(object):
 
         # Creating card
         for i in range(keyword_length):
-            self.__card.append([
-                ''.join(choices(printable.replace(" ", ""), k=segment_length + i - i))
+            segment = [
+                ''.join(choices(printable, k=segment_length + i - i))
                 for i in range(10)
-            ])  # + i - i because "unused variable"
+            ]
+            # + i - i because "unused variable"
+            self.__card.append(segment)
 
     def save_png(
             self,
@@ -150,17 +154,7 @@ class PasswordCard(object):
         # save image
         img.save(filename)
 
-        # in case you need a filename generator:
-        """
-        from random import randint
-        from os import path
-        
-        filename = f"card_{randint(1000, 100000000)}.png"
-        while path.exists(filename):
-            filename = f"card_{randint(1000, 100000000)}.png"
-        """
-
-    def save_text(self, filename):
+    def save_text(self, filename) -> None:
         """
         Save the card as text
 
@@ -282,7 +276,7 @@ class PasswordCard(object):
 
         return card
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         ret = f"PasswordCard(keyword_length={repr(self.__keyword_length)}"
         ret += f", segment_length={repr(self.__segment_length)}"
         ret += f", seed={repr(self.__seed)})"
@@ -290,7 +284,7 @@ class PasswordCard(object):
         return ret
 
 
-def save_card(card: PasswordCard, filename: str):
+def save_card(card: PasswordCard, filename: str) -> None:
     """
     Saves card via pickle dumping it
     also works with other objects
