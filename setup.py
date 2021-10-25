@@ -9,10 +9,10 @@ with open("requirements.txt", "r") as requirements:
 
 setup(
     name="PasswordCardGenerator",
-    version="1.4.5",
+    version="1.4.3",
     # Major version 1
     # Minor version 4
-    # Maintenance version 5
+    # Maintenance version 2
 
     author="DerSchinken",
     maintainer="DerSchinken",
@@ -25,7 +25,7 @@ setup(
         "PasswordCardGenerator.GUI",
     ],
     package_data={
-        "PasswordCardGenerator": ["*.TTF", "*.pyi"],
+        "PasswordCardGenerator": ["*.TTF"],
         "PasswordCardGenerator.GUI": ["*.png", "*.dd"],  # dd - dont delete
     },
     include_package_data=True,

@@ -45,7 +45,7 @@ def generate_password_card():
     while path.exists(filename):
         filename = "tmp/card_" + str(randint(1, 100000)) + ".png"
     # temp save for displaying
-    card.save_png(filename)
+    card.save(filename)
 
     # load card
     card: PhotoImage = PhotoImage(file=filename)
@@ -79,7 +79,8 @@ def generate_password_card():
     remove(filename)
 
 
-Button(app, text="Generate", command=lambda: generate_password_card()).grid(row=2, column=1, padx='5', pady='5')
+Button(app, text="Generate", command=lambda: generate_password_card()).\
+    grid(row=2, column=1, padx='5', pady='5')
 
 if __name__ == "__main__":
     app.run()
