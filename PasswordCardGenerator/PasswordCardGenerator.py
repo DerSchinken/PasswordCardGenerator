@@ -163,6 +163,7 @@ class PasswordCard(object):
         with open(filename, "w", errors="ignore") as file:
             file.write(str(self))
 
+    @property
     def raw(self) -> List[List[str]]:
         """
         Returns self.__card

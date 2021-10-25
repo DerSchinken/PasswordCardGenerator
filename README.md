@@ -36,7 +36,7 @@ column = 5
 print(card1[row, column])
 
 # You can get the raw data
-print(card1.raw())
+print(card1.raw)
 ```
 
 There is also a GUI, but it is still in progress so don't expect anything  
