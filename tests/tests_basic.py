@@ -18,7 +18,7 @@ if __name__ == '__main__':
     print(card[1])
     print(card["."])
 
-    print(card.raw())
+    print(card.raw)
 
     save_card(card, "test.card")
     x = load_card("test.card")
