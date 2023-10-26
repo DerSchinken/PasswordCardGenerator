@@ -4,11 +4,15 @@ from tkinter import *
 from tkinter.ttk import *
 from os import path, remove
 from random import randint
+from re import split as rsplit
 
 app = Tk()
 app.run = app.mainloop
 app.title("Password Card Generator")
-app.iconphoto(False, PhotoImage(file="assets/img/Logo.png"))
+
+asset_path = "/".join(rsplit(r"[/\\]", __file__)[:-1]) + "/assets/"
+
+app.iconphoto(False, PhotoImage(file=f"{asset_path}/img/Logo.png"))
 app.geometry("250x100")
 app.resizable(width=False, height=False)
 
@@ -35,7 +39,7 @@ def generate_password_card():
         return
     card += _len
     if _seed:
-        card += f", seed={_seed}"
+        card += f", seed='{_seed}'"
     card += ")"
 
     # execute the generated function call
@@ -51,7 +55,7 @@ def generate_password_card():
     card: PhotoImage = PhotoImage(file=filename)
     # create popup with the card as image
     popup = Toplevel(app)
-    popup.iconphoto(False, PhotoImage(file="assets/img/Logo.png"))
+    popup.iconphoto(False, PhotoImage(file=f"{asset_path}/img/Logo.png"))
     popup.title("Password Card")
     x = Label(popup, image=card)
     x.image = card
