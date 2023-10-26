@@ -137,7 +137,6 @@ class PasswordCard(object):
         for line in text.split("\n"):
             lines.append(font.getsize(line)[0] + 20)
 
-        print(max(lines))
         size["x"] = max(lines)
         size["y"] = int(len(text.split("\n")) * font.getsize(text)[1] * 1.067)
 
