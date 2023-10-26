@@ -45,9 +45,9 @@ def generate_password_card():
     # execute the generated function call
     card: PasswordCard = eval(card)
     # get a filename that doesn't exist
-    filename = "tmp/card_" + str(randint(1, 100000)) + ".png"
+    filename = asset_path + "tmp/card_" + str(randint(1, 100000)) + ".png"
     while path.exists(filename):
-        filename = "tmp/card_" + str(randint(1, 100000)) + ".png"
+        filename = asset_path + "tmp/card_" + str(randint(1, 100000)) + ".png"
     # temp save for displaying
     card.save_png(filename)
 
