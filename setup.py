@@ -9,10 +9,10 @@ with open("requirements.txt", "r") as requirements:
 
 setup(
     name="PasswordCardGenerator",
-    version="1.4.9",
+    version="1.5.0",
     # Major version 1
-    # Minor version 4
-    # Maintenance version 6
+    # Minor version 5
+    # Maintenance version 0
 
     author="DerSchinken",
     maintainer="DerSchinken",
